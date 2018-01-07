@@ -1,3 +1,5 @@
+/* See the code on Codepen https://codepen.io/Noahz/pen/rpwPKa */
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -12,6 +14,21 @@ let randomY = 0;
 const timeBetweenChoosey = 3000;
 
 const tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+
+const styles = `
+#canvas {
+    background: #111116;
+    width: 100%;
+    height: 100%;
+    
+    animation: hue 60s infinite linear;
+}
+
+@keyframes hue {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+`;
 
 class Branch {
 	constructor(x, y) {
@@ -69,7 +86,8 @@ function loop() {
 
 function init() {
 	resizeCanvas();
-	
+	injectCSS();
+
 	chooseRandomAnts();
 	setInterval(loop, 1000 / 60);
 }
@@ -87,6 +105,13 @@ function mouseMove(e) {
 	
 	mouseX = e.clientX;
 	mouseY = e.clientY;
+}
+
+function injectCSS() {
+	let node = document.createElement("style");
+	node.innerHTML = styles;
+
+	document.head.appendChild(node);
 }
 
 function chooseRandomAnts() {
